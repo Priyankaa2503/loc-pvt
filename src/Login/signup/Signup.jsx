@@ -14,6 +14,7 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { app, database, storage } from '../../components/firebaseConfig'
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, signOut, updateProfile } from "firebase/auth";
+import GoogleButton from 'react-google-button'
 
 function Copyright(props) {
   return (
@@ -131,6 +132,13 @@ export default function SignUp() {
             >
               Sign Up
             </Button>
+            <GoogleButton 
+                 style={{ 
+                 width:"450px",
+                 height:"50px  "
+             }}
+                
+                />
             <Grid container justifyContent="flex-end">
               <Grid item>
                 <Link href="/login" variant="body2">
