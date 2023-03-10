@@ -12,6 +12,8 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { app, database, storage } from '../../components/firebaseConfig'
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, signOut, updateProfile } from "firebase/auth";
 
 function Copyright(props) {
   return (
@@ -29,12 +31,26 @@ function Copyright(props) {
 const theme = createTheme();
 
 export default function SignUp() {
+  const auth = getAuth();
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
+    createUserWithEmailAndPassword(auth, data.get('email'), data.get('password'))
+    .then((userCredential) => {
+      // // Signed in 
+      const user=userCredential.user;
+      // ...
+      console.log(user);
+      console.log(data.get("firstName")+" "+data.get("lastName"));
+      updateProfile(user,{
+        displayName: data.get("firstName")+" "+data.get("lastName")
+      })
+    })
+    .catch((error) => {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      // ..
+      console.log(errorMessage);
     });
   };
 
@@ -117,7 +133,7 @@ export default function SignUp() {
             </Button>
             <Grid container justifyContent="flex-end">
               <Grid item>
-                <Link href="#" variant="body2">
+                <Link href="/login" variant="body2">
                   Already have an account? Sign in
                 </Link>
               </Grid>

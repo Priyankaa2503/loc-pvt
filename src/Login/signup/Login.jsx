@@ -13,6 +13,9 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 
+import { app, database, storage } from '../../components/firebaseConfig'
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, signOut, updateProfile } from "firebase/auth";
+
 function Copyright(props) {
   return (
     <Typography
@@ -34,12 +37,22 @@ function Copyright(props) {
 const theme = createTheme();
 
 export default function SignInSide() {
+  const auth = getAuth();
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
+    signInWithEmailAndPassword(auth, data.get("email"),data.get("password"))
+    .then((userCredential) => {
+      // // Signed in 
+      const user=userCredential.user;
+      // ...
+      console.log(user);
+    })
+    .catch((error) => {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      // ..
+      console.log(errorMessage);
     });
   };
 
@@ -125,7 +138,7 @@ export default function SignInSide() {
                   </Link>
                 </Grid>
                 <Grid item>
-                  <Link href="#" variant="body2">
+                  <Link href="/signup" variant="body2">
                     {"Don't have an account? Sign Up"}
                   </Link>
                 </Grid>
