@@ -58,7 +58,17 @@ export default function SignInSide() {
 
   return (
     <ThemeProvider theme={theme}>
-      <Grid container component="main" sx={{ height: "100vh" }}>
+      <Grid
+        container
+        component="main"
+        sx={{
+          height: "100vh",
+          padding:"100px",
+        
+         
+
+        }}
+      >
         <CssBaseline />
         <Grid
           item
@@ -66,12 +76,10 @@ export default function SignInSide() {
           sm={4}
           md={7}
           sx={{
-            backgroundImage: "url(https://source.unsplash.com/random)",
+            backgroundImage:
+              "url(https://static.wixstatic.com/media/0b340f_b8c3a4e8dde643788d75c83762ef90fb~mv2_d_1937_1731_s_2.jpg/v1/fill/w_1336,h_1426,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/0b340f_b8c3a4e8dde643788d75c83762ef90fb~mv2_d_1937_1731_s_2.jpg)",
             backgroundRepeat: "no-repeat",
-            backgroundColor: (t) =>
-              t.palette.mode === "light"
-                ? t.palette.grey[50]
-                : t.palette.grey[900],
+
             backgroundSize: "cover",
             backgroundPosition: "center",
           }}
@@ -127,7 +135,6 @@ export default function SignInSide() {
                 fullWidth
                 variant="contained"
                 sx={{ mt: 3, mb: 2 }}
-                className="bg-white"
               >
                 Sign In
               </Button>
