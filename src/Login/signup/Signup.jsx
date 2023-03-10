@@ -32,6 +32,7 @@ function Copyright(props) {
 const theme = createTheme();
 
 export default function SignUp() {
+  let googleProv = new GoogleAuthProvider()
   const auth = getAuth();
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -54,6 +55,24 @@ export default function SignUp() {
       console.log(errorMessage);
     });
   };
+
+  const handleGoogle=()=>{
+    signInWithPopup(auth, googleProv) //google pop up
+      .then((result) => {
+        const credential = GoogleAuthProvider.credentialFromResult(result);
+        const token = credential.accessToken;
+        // The signed-in user info.
+        const user = result.user;
+        // const user=userCredential.user;
+        console.log(user);
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        // ..
+        console.log(errorMessage);
+      });
+  }
 
   return (
     <ThemeProvider theme={theme}>
@@ -138,7 +157,7 @@ export default function SignUp() {
                  height:"50px  "
              }}
                 
-                />
+              onClick={handleGoogle}/>
             <Grid container justifyContent="flex-end">
               <Grid item>
                 <Link href="/login" variant="body2">

@@ -12,7 +12,7 @@ import Grid from "@mui/material/Grid";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-
+import GoogleButton from 'react-google-button'
 import { app, database, storage } from '../../components/firebaseConfig'
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, signOut, updateProfile } from "firebase/auth";
 
@@ -38,6 +38,25 @@ const theme = createTheme();
 
 export default function SignInSide() {
   const auth = getAuth();
+  let googleProv = new GoogleAuthProvider()
+  const handleGoogle=()=>{
+    signInWithPopup(auth, googleProv) //google pop up
+        .then((result) => {
+          const credential = GoogleAuthProvider.credentialFromResult(result);
+          const token = credential.accessToken;
+          // The signed-in user info.
+          const user = result.user;
+          // const user=userCredential.user;
+          console.log(user);
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          // ..
+          console.log(errorMessage);
+        });
+  }
+
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -130,6 +149,13 @@ export default function SignInSide() {
                 control={<Checkbox value="remember" color="primary" />}
                 label="Remember me"
               />
+              <GoogleButton 
+                 style={{ 
+                 width:"450px",
+                 height:"50px  "
+             }}
+                
+              onClick={handleGoogle}/>
               <Button
                 type="submit"
                 fullWidth
